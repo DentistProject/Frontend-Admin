@@ -60,6 +60,8 @@ export default {
         center: [11.9746, 57.7089],
         zoom: 10,
       });
+      this.mapContainer.addControl(new mapboxgl.FullscreenControl()); // full screen control
+      this.mapContainer.addControl(new mapboxgl.NavigationControl()); // zoom in/out control
       this.mapContainer.addControl(
         new mapboxgl.GeolocateControl({
           positionOptions: {
