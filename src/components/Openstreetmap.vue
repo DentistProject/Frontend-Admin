@@ -366,6 +366,15 @@ export default {
       try {
         const response = await axios.post("http://localhost:3000/api/v1/clinics", data);
         console.log(response);
+        const duplicateAddress = this.clinicsData.some(
+          clinic => clinic.location.formattedAddress === response.data.clinic.location.formattedAddress
+        )
+        console.log(duplicateAddress);
+        if (duplicateAddress) {
+          this.error = "Clinic address already exists.";
+          this.deleteClinic(response.data.clinic._id);
+        }
+
         this.getLocation();
       } catch (error) {
         console.error("Error creating clinic:", error);
