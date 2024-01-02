@@ -115,9 +115,11 @@ export default {
       visitReason: '', // To store the reason for the visit
       bookingToConfirm: null, // To store the booking data
       showForm: false,
+      endpoint: import.meta.env.VITE_ENDPOINT,
     };
   },
   mounted() {
+    console.log(this.endpoint)
     this.initializeMap();
     this.getLocation();
     this.setPatientId();
@@ -140,7 +142,7 @@ export default {
 
 
         const patientName = localStorage.getItem('first_name') + ' ' + localStorage.getItem('last_name');
-        axios.patch(`http://127.0.0.1:8081/api/v1/bookings/${this.bookingToConfirm._id}`, {
+        axios.patch(`${this.endpoint}bookings/${this.bookingToConfirm._id}`, {
           status: 'BOOKED',
           patientName: this.patientName,
           message: this.visitReason,
@@ -195,7 +197,7 @@ export default {
     },
     async getLocation() {
       try {
-        const response = await axios.get("http://localhost:3000/api/v1/clinics");
+        const response = await axios.get(`${this.endpoint}clinics`);
         this.clinicsData = response.data.clinics;
         console.log(response.data.clinics)
 
@@ -232,7 +234,7 @@ export default {
       console.log(localStorage.getItem('dentistId'));
       localStorage.setItem('dentistName', clinic.dentistName);
 
-      axios.get(`http://localhost:8081/api/v1/bookings/dentist/available/${clinic.dentistId}`)
+      axios.get(`${this.endpoint}bookings/dentist/available/${clinic.dentistId}`)
         .then(response => {
           const clinicInfo = response.data;
           console.log('Clinic Information:', clinicInfo);
@@ -289,7 +291,7 @@ export default {
       try {
         const dentistToPatch = localStorage.getItem('dentistId');
         console.log('Updating dentist from postgres: ', dentistToPatch);
-        await axios.patch(`http://localhost:8000/api/v1/dentists/${dentistToPatch}/`, updatedClinic_postgres);
+        await axios.patch(`${this.endpoint}dentists/${dentistToPatch}/`, updatedClinic_postgres);
         console.log("Clinic updated successfully:", dentistToPatch);
       } catch (error) {
         console.error("Error updating clinic:", error);
@@ -301,7 +303,7 @@ export default {
       };
 
       try {
-        await axios.patch(`http://localhost:3000/api/v1/clinics/${clinic._id}`, updatedClinic);
+        await axios.patch(`${this.endpoint}clinics/${clinic._id}`, updatedClinic);
         console.log("Clinic updated successfully:", clinic._id);
         this.getLocation();
       } catch (error) {
@@ -343,7 +345,7 @@ export default {
         location: this.clinicAddress,
       };
       try {
-        const response = await axios.post("http://localhost:8000/api/v1/dentists/", data_postgres);
+        const response = await axios.post(`${this.endpoint}dentists/`, data_postgres);
         console.log(response.data);
         console.log(response.data.data.id);
         var clinicId = response.data.data.id;
@@ -364,7 +366,7 @@ export default {
       };
 
       try {
-        const response = await axios.post("http://localhost:3000/api/v1/clinics", data);
+        const response = await axios.post(`${this.endpoint}clinics`, data);
         console.log(response);
         const duplicateAddress = this.clinicsData.some(
           clinic => clinic.location.formattedAddress === response.data.clinic.location.formattedAddress
@@ -385,13 +387,13 @@ export default {
       try {
         const dentistToDelete = localStorage.getItem('dentistId');
         console.log('Deleting this dentist from postgres: ', dentistToDelete);
-        await axios.delete(`http://localhost:8000/api/v1/dentists/${dentistToDelete}/`);
+        await axios.delete(`${this.endpoint}dentists/${dentistToDelete}/`);
         console.log("Clinic deleted successfully:", dentistToDelete);
       } catch (error) {
         console.error("Error deleting clinic:", error);
       }
       try {
-        await axios.delete(`http://localhost:3000/api/v1/clinics/${clinicId}`);
+        await axios.delete(`${this.endpoint}clinics/${clinicId}`);
         console.log("Clinic deleted successfully:", clinicId);
         this.getLocation();
       } catch (error) {
@@ -424,7 +426,7 @@ export default {
       const dentistName = localStorage.getItem('dentistName');
       this.newBooking.dentistID = dentistID;
       this.newBooking.dentistName = dentistName;
-      axios.post('http://127.0.0.1:8081/api/v1/bookings/', {
+      axios.post(`${this.endpoint}bookings/`, {
         patientName: '',
         dentistName: this.newBooking.dentistName,
         dentistID: this.newBooking.dentistID,
@@ -442,7 +444,7 @@ export default {
     },
     getAllBookings() {
       let dentistID = localStorage.getItem('dentistID');
-      axios.get(`http://127.0.0.1:8081/api/v1/bookings/dentist/${dentistID}`)
+      axios.get(`${this.endpoint}bookings/dentist/${dentistID}`)
         .then((response) => {
           this.bookings = response.data;
         })
@@ -453,12 +455,12 @@ export default {
     cancelAndReOpenBooking(booking) {
       console.log(booking)
       console.log(this.dentistName)
-      axios.patch(`http://127.0.0.1:8081/api/v1/bookings/${booking._id}`, {
+      axios.patch(`${this.endpoint}bookings/${booking._id}`, {
         status: 'CANCELED'
 
       })
         .then(() => {
-          axios.post('http://127.0.0.1:8081/api/v1/bookings/', {
+          axios.post(`${this.endpoint}bookings/`, {
             patientName: '',
             dentistName: booking.dentistName,
             dentistID: booking.dentistID,
@@ -479,7 +481,7 @@ export default {
     cancelBooking(booking) {
       console.log(booking)
       console.log(this.dentistName)
-      axios.patch(`http://127.0.0.1:8081/api/v1/bookings/${booking._id}`, {
+      axios.patch(`${this.endpoint}bookings/${booking._id}`, {
         status: 'CANCELED'
       })
         .then(() => {
