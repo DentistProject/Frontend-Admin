@@ -9,7 +9,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a href="/booking" class="nav-link">Booking</a>
+                        <router-link to="/booking" class="nav-link">Booking</router-link>
                     </li>
                 </ul>
                 <span class="navbar-text" v-if="!isUserLoggedIn">
