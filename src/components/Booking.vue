@@ -111,7 +111,7 @@ export default {
             const dentistName = localStorage.getItem('dentistName');
             this.newBooking.dentistID = dentistID;
             this.newBooking.dentistName = dentistName;
-            axios.post(`${this.endpoint}bookings/`, {
+            axios.post('http://192.168.90.193:80/api/v1/bookings/', {
                 patientName: '',
                 dentistName: this.newBooking.dentistName,
                 dentistID: this.newBooking.dentistID,
@@ -129,7 +129,7 @@ export default {
         },
         getAllBookings() {
             let dentistID = localStorage.getItem('dentistID');
-            axios.get(`${this.endpoint}bookings/dentist/${dentistID}`)
+            axios.get(`http://192.168.90.193:80/api/v1/bookings/dentist/${dentistID}`)
                 .then((response) => {
                     this.bookings = response.data;
                 })
@@ -140,12 +140,12 @@ export default {
         cancelAndReOpenBooking(booking) {
             console.log(booking)
             console.log(this.dentistName)
-            axios.patch(`${this.endpoint}bookings/${booking._id}`, {
+            axios.patch(`http://192.168.90.193:80/api/v1/bookings/${booking._id}`, {
                 status: 'CANCELED'
 
             })
                 .then(() => {
-                    axios.post(`${this.endpoint}bookings/`, {
+                    axios.post('http://192.168.90.193:80/api/v1/bookings/', {
                         patientName: '',
                         dentistName: booking.dentistName,
                         dentistID: booking.dentistID,
@@ -166,7 +166,7 @@ export default {
         cancelBooking(booking) {
             console.log(booking)
             console.log(this.dentistName)
-            axios.patch(`${this.endpoint}bookings/${booking._id}`, {
+            axios.patch(`http://192.168.90.193:80/api/v1/bookings/${booking._id}`, {
                 status: 'CANCELED'
             })
                 .then(() => {
