@@ -42,7 +42,7 @@
     <div class=" mb-4">
       <div class="card">
         <div class="card-body text-white mailbox-widget pb-0" style="background-color: #567890;">
-          <h4 class="text-white pb-3">Bookings</h4>
+          <h4 class="text-white pb-3">Clinic Locations</h4>
         </div>
         <!-- Conditional Form -->
         <div v-if="showForm">
