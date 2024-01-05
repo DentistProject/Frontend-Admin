@@ -1,26 +1,24 @@
 <template>
     <nav id="mainNav" class="navbar navbar-expand-lg sticky-top custom-navbar">
         <div class="container-fluid">
-            <router-link to="/" class="navbar-brand  text-white">Admin</router-link>
+            <router-link to="/" class="navbar-brand">Admin Menu</router-link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a href="/booking" class="nav-link">Booking</a>
-                    </li>
                 </ul>
-                <span class="navbar-text" v-if="!isUserLoggedIn">
-                    <button @click="redirectToLogin" class="btn btn-primary me-2" style="width: 100px;">Login</button>
-
-                    <button @click="redirectToSignUp" class="btn btn-outline-primary" style="width: 100px;">Sign-up</button>
-                </span>
-                <span class="navbar-text" v-else>
-                    <router-link to="/useraccount" class="btn btn-primary me-2">Account</router-link>
-                    <button @click="logout" class="btn btn-outline-primary">Log out</button>
-                </span>
+                <div>
+                    <div v-if="!isUserLoggedIn">
+                        <router-link to="/login"><button class="btn btn-primary me-2" style="width: 100px;">Login</button></router-link>
+                        <router-link to="/register"><button class="btn btn-outline-primary"
+                                style="width: 100px;">Sign-up</button></router-link>
+                    </div>
+                    <div v-else>
+                        <button @click="logout" class="btn btn-outline-primary">Log out</button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
@@ -32,7 +30,7 @@ import { useRouter } from 'vue-router';
 
 export default {
     setup() {
-        const isUserLoggedIn = ref(false); // Replace with actual login check
+        const isUserLoggedIn = true; // Replace with actual login check
         const router = useRouter();
 
         function redirectToLogin() {
@@ -59,23 +57,49 @@ export default {
 };
 </script>
   
-<style>
+<style scoped>
 .custom-navbar {
     background-color: rgb(211, 222, 222);
+
+}
+
+.nav-link {
+    border-radius: 1rem;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .nav-link:hover {
-    color: hsla(160, 100%, 37%, 1);
+    color: rgb(0, 0, 0);
     background-color: rgba(44, 99, 124, 0.1);
     transition: color 0.3s, background-color 0.3s;
 }
 
 #navbarSupportedContent ul.navbar-nav {
     margin-left: 8%;
+
 }
 
 
 #navbarSupportedContent .navbar-text {
     margin-right: 10%;
+}
+
+.nav-item {
+    display: flex;
+}
+.navbar-brand {
+    font-size: x-large;
+    color: rgb(44, 44, 44);
+    font-weight: bolder;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.navbar-brand:hover {
+    color: rgb(0, 0, 0);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.242), /* offset shadow */
+    0 0 1em rgba(0, 0, 0, 0.5), /* inner shadow */
+    0 0 0.2em rgba(0, 0, 0, 0.5); /*innermost shadow */
+    transition: all 0.3s;
 }
 </style>
