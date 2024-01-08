@@ -1,4 +1,4 @@
-# Frontend Patient
+# Frontend Admin
 
 This frontend handles all patient related functions, requesting CRUD operations, and api requests to get map from mapboxgl.
 
