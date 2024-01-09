@@ -1,6 +1,6 @@
 # Frontend Admin
 
-This frontend handles all patient related functions, requesting CRUD operations, and api requests to get map from mapboxgl.
+This frontend handles all admin related functions, requesting CRUD operations, and api requests to get map from mapboxgl.
 
 # Setup
 
